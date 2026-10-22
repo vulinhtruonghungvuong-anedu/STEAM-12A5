@@ -16,24 +16,20 @@
     body { background-color: var(--bg); color: var(--text); display: flex; justify-content: center; height: 100vh; }
     .chat-container { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; background: var(--chat-bg); box-shadow: 0 0 20px rgba(0,0,0,0.05); }
     
-    /* Header */
     .header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 14px 16px; text-align: center; }
     .header h1 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
     .header p { font-size: 12px; opacity: 0.9; }
 
-    /* Suggested Chips */
     .suggestions { display: flex; gap: 6px; padding: 10px; overflow-x: auto; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; scrollbar-width: none; }
     .suggestions::-webkit-scrollbar { display: none; }
     .chip { font-size: 12px; background: white; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 16px; white-space: nowrap; cursor: pointer; color: var(--primary-dark); }
     .chip:hover { background: #e0f2fe; }
 
-    /* Chat Messages */
     .chat-box { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
     .msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.45; word-wrap: break-word; }
     .bot-msg { background: #f1f5f9; color: #1e293b; align-self: flex-start; border-bottom-left-radius: 4px; }
     .user-msg { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 
-    /* Input area */
     .input-bar { display: flex; padding: 10px; border-top: 1px solid #e2e8f0; gap: 8px; background: white; }
     .input-bar input { flex: 1; border: 1px solid #cbd5e1; border-radius: 20px; padding: 10px 16px; font-size: 14px; outline: none; }
     .input-bar input:focus { border-color: var(--primary); }
@@ -49,7 +45,6 @@
     <p>Tối ưu hóa logistics Bô-xít Nhân Cơ - Cam Ranh</p>
   </div>
 
-  <!-- Nút gợi ý cho Thầy Cô và Khách bấm nhanh -->
   <div class="suggestions">
     <div class="chip" onclick="quickSend('Tổ 3 giải bài toán đạo hàm cực trị thế nào?')">🧮 Giải tích Tổ 3</div>
     <div class="chip" onclick="quickSend('Tại sao nắn tuyến sang 82 km lại nhân văn?')">🌱 Nắn tuyến né dân</div>
@@ -59,8 +54,8 @@
 
   <div class="chat-box" id="chatBox">
     <div class="msg bot-msg">
-      👋 Kính chào Thầy/Cô và các bạn!<br><br>
-      Tôi là Trợ lý AI đồng hành cùng dự án <b>"Đường ra biển lớn"</b>. Thầy/Cô có thể bấm vào các gợi ý phía trên hoặc gõ câu hỏi phản biện trực tiếp vào bên dưới!
+      👋 Kính chào Quý Thầy/Cô và các bạn!<br><br>
+      Tôi là Trợ lý AI đồng hành cùng dự án <b>"Đường ra biển lớn"</b>. Mời Quý Thầy/Cô bấm chọn gợi ý phía trên hoặc đặt câu hỏi phản biện trực tiếp!
     </div>
   </div>
 
@@ -71,24 +66,21 @@
 </div>
 
 <script>
-  // DÁN MÃ API KEY CỦA BẠN VÀO DÒNG DƯỚI ĐÂY:
+  // Mã API Key của Thầy/Cô đã được nhúng sẵn vào đây:
   const GEMINI_API_KEY = "AIzaSyAGtdVdR4qAiYWNqxKU-_xYmtx0E4Oknk8";
 
-  // NẠP TRỌN VẸN TRI THỨC DỰ ÁN CHO CHATBOT
-  const SYSTEM_INSTRUCTION = `
-Bạn là Trợ lý AI chuyên trách dự án STEM Toán 12: 'Đường ra biển lớn - Ứng dụng đạo hàm tối ưu hóa hạ tầng logistics' (Bô-xít Nhân Cơ Đắk Nông -> Siêu cảng Cam Ranh).
-Nhiệm vụ: Trả lời ngắn gọn, lịch thiệp, thuyết phục các câu hỏi của Ban Giám khảo, Giáo viên dự giờ và Học sinh dựa trên các dữ liệu chuẩn sau:
-1. Bối cảnh: Đắk Nông trữ lượng 4,2-5,4 tỷ tấn bô-xít (gần 50% cả nước). Nhà máy Nhân Cơ mở rộng 30.000 tỷ lên 2 triệu tấn alumin/năm. Hàng rời xuất qua Cảng Cam Ranh.
-2. Mô hình Toán: Tam giác vuông AHB (A: Nhân Cơ, B: Cam Ranh). AH = 114 km (đường núi, 250 tỷ/km), HB = 142 km (đường ven biển, 150 tỷ/km).
-Hàm chi phí C(x) = 250*sqrt(114^2 + x^2) + 150*(142 - x).
-C'(x) = 0 <=> x = 85.5 km. Chi phí mở mới tối ưu Capex = 44.100 tỷ VNĐ.
-3. Tính nhân văn (GeoGebra): Tại x = 85.5 km đồ thị có tiếp tuyến ngang (k ≈ 0). Khi gặp vùng 200 hộ dân, nắn tuyến về x = 82 km (đất cằn), Capex chỉ tăng chưa tới 12 tỷ (0.02%), bảo vệ toàn bộ sinh kế người dân.
+  const SYSTEM_INSTRUCTION = `Bạn là Trợ lý AI chuyên trách dự án STEM Toán 12: 'Đường ra biển lớn - Ứng dụng đạo hàm tối ưu hóa hạ tầng logistics' (Bô-xít Nhân Cơ Đắk Nông ra Cảng Cam Ranh).
+Nhiệm vụ: Trả lời ngắn gọn, chuẩn xác, thuyết phục các câu hỏi của Ban Giám khảo, Giáo viên dự giờ và Học sinh.
+Tri thức cốt lõi:
+1. Bối cảnh: Đắk Nông trữ lượng 4,2-5,4 tỷ tấn bô-xít. Tổ hợp Nhân Cơ mở rộng 30.000 tỷ lên 2 triệu tấn alumin/năm. Xuất qua Siêu cảng Cam Ranh bằng xe bồn silo.
+2. Toán học: Mô hình tam giác vuông AHB (AH = 114 km đường núi, HB = 142 km đường ven biển). Đơn giá núi 250 tỷ/km, biển 150 tỷ/km.
+Hàm tổng chi phí mở mới: C(x) = 250*sqrt(114^2 + x^2) + 150*(142 - x).
+Đạo hàm C'(x) = 0 <=> x = 85.5 km. Chi phí cực tiểu Capex = 44.100 tỷ VNĐ.
+3. Nhân văn (GeoGebra): Tại x = 85.5 km đồ thị có tiếp tuyến ngang (k ≈ 0). Khi gặp khu dân cư 200 hộ dân, nắn trạm về x = 82 km (đất cằn), Capex chỉ tăng chưa tới 12 tỷ (0.02%), bảo vệ toàn bộ sinh kế người dân.
 4. Ba phương án đấu thầu:
-- Tổ 1 (Tuyến thẳng AB): 182,1 km núi. Capex 45.525 tỷ. Rút ngắn quãng đường nhưng xẻ rừng phòng hộ, dốc cao tốn Opex xe tải.
-- Tổ 2 (Tận dụng 142 km CT01): Vốn mở mới ít nhất (28.500 tỷ), nhưng xe chạy vòng 256 km gây lãng phí nhiên liệu Opex và phát thải Carbon trong 30 năm.
-- Tổ 3 (Tối ưu Toán học): Capex 44.100 tỷ, tổng đường 199 km, cân bằng tối ưu và mở trung tâm ICD.
-Phong cách trả lời: Tự tin, chuẩn mực sư phạm, ngắn gọn, súc tích (dưới 150 từ nếu không hỏi chi tiết).
-`;
+- Tổ 1 (Tuyến thẳng AB): 182,1 km núi. Capex 45.525 tỷ. Rút ngắn đường nhưng tàn phá rừng phòng hộ, dốc cao tốn Opex xe tải 30 năm.
+- Tổ 2 (Tận dụng 142 km cao tốc CT01): Vốn mở mới ít nhất (28.500 tỷ), nhưng xe chạy vòng 256 km lãng phí hàng ngàn tỷ Opex xăng dầu và xả CO2.
+- Tổ 3 (Tối ưu Toán học): Capex 44.100 tỷ, tổng chiều dài 199 km, cân bằng tối ưu và mở trung tâm ICD.`;
 
   const chatBox = document.getElementById("chatBox");
   const userInput = document.getElementById("userInput");
@@ -119,17 +111,22 @@ Phong cách trả lời: Tự tin, chuẩn mực sư phạm, ngắn gọn, súc 
 
     const loadingMsg = document.createElement("div");
     loadingMsg.className = "msg bot-msg";
-    loadingMsg.innerText = "Đang suy nghĩ câu trả lời...";
+    loadingMsg.innerText = "⏳ Đang phân tích dữ liệu...";
     chatBox.appendChild(loadingMsg);
     chatBox.scrollTop = chatBox.scrollHeight;
 
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [
-            { role: "user", parts: [{ text: SYSTEM_INSTRUCTION + "\n\nNgười dùng hỏi: " + text }] }
+            {
+              role: "user",
+              parts: [{ text: SYSTEM_INSTRUCTION + "\n\nCâu hỏi: " + text }]
+            }
           ]
         })
       });
@@ -137,14 +134,16 @@ Phong cách trả lời: Tự tin, chuẩn mực sư phạm, ngắn gọn, súc 
       const data = await response.json();
       chatBox.removeChild(loadingMsg);
 
-      if (data.candidates && data.candidates[0].content.parts[0].text) {
+      if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
         appendMsg(data.candidates[0].content.parts[0].text, "bot-msg");
+      } else if (data.error) {
+        appendMsg("⚠️ Lỗi Google: " + data.error.message, "bot-msg");
       } else {
-        appendMsg("Xin lỗi, hệ thống đang bận. Quý Thầy/Cô vui lòng thử lại!", "bot-msg");
+        appendMsg("Hệ thống chưa nhận được phản hồi. Vui lòng bấm thử lại!", "bot-msg");
       }
     } catch (err) {
       chatBox.removeChild(loadingMsg);
-      appendMsg("Lỗi kết nối mạng hoặc sai API Key. Vui lòng kiểm tra lại!", "bot-msg");
+      appendMsg("⚠️ Lỗi mạng: " + err.message, "bot-msg");
     }
   }
 </script>
