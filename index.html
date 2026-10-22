@@ -66,7 +66,7 @@
   <div class="chat-box" id="chatBox">
     <div class="msg bot-msg">
       👋 Kính chào Quý Thầy/Cô và các bạn!<br><br>
-      Tôi là Trợ lý AI thế hệ mới của dự án <b>"Đường ra biển lớn"</b>. Tôi có thể giải đáp các phương án của dự án, đồng thời <b>tự tra cứu kiến thức mở trên Internet</b> (kỹ thuật thi công, nông nghiệp, môi trường, kinh tế...) để đối đáp cùng Thầy/Cô!
+      Tôi là Trợ lý AI thế hệ mới (Meta Llama-3.3 70B Siêu Tốc) của dự án <b>"Đường ra biển lớn"</b>. Tôi có thể suy luận thông minh về dự án, kỹ thuật hầm mỏ, nông sản Tây Nguyên, kinh tế và giải đáp mọi câu hỏi phản biện của Thầy/Cô!
     </div>
   </div>
 
@@ -77,16 +77,21 @@
 </div>
 
 <script>
-  // KHO TRI THỨC GỐC ĐỂ AI ƯU TIÊN THAM CHIẾU KHI NÓI VỀ DỰ ÁN
-  const PROJECT_CONTEXT = `
-BỐI CẢNH DỰ ÁN STEM TOÁN 12: ĐƯỜNG RA BIỂN LỚN (Nhân Cơ Đắk Nông -> Cảng Cam Ranh)
-1. Đắk Nông có 4,2-5,4 tỷ tấn bô-xít; Tổ hợp Nhân Cơ mở rộng 30.000 tỷ lên 2 triệu tấn alumin/năm ra Siêu cảng Cam Ranh.
-2. Mô hình tam giác vuông AHB (AH = 114 km núi giá 250 tỷ/km, HB = 142 km biển giá 150 tỷ/km).
-3. Tổ 1 (Tuyến thẳng AB): 182,1 km núi, Capex 45.525 tỷ. Ngắn nhất nhưng phá rừng phòng hộ, rủi ro sạt lở và tốn Opex xe leo đèo 30 năm.
-4. Tổ 2 (Tận dụng 142 km CT01): Vốn mở mới thấp nhất 28.500 tỷ (tiết kiệm Capex), nhưng xe chạy vòng 256 km lãng phí hàng ngàn tỷ Opex xăng dầu và phát thải lớn CO2.
-5. Tổ 3 (Tối ưu Toán học): C(x) = 250*sqrt(114^2 + x^2) + 150*(142 - x). Đạo hàm C'(x) = 0 ra x = 85.5 km, Capex cực tiểu 44.100 tỷ VNĐ. Tiếp tuyến k ≈ 0, nắn sang mốc 82 km (đất cát cằn) chỉ tăng 12 tỷ (0.02%), bảo vệ sinh kế 200 hộ dân và hình thành trung tâm logistics ICD.
-6. Khi hỏi về nông sản: Tổ 3 tối ưu nhất vì trạm ICD tại mốc 82 km làm kho lạnh sơ chế bơ, sầu riêng, cà phê xuất khẩu; đường thoải không làm dập hoa quả tươi; thời gian chạy nhanh hơn Tổ 2 tới 2 tiếng.
-`;
+  // MÃ KHÓA CHUẨN XÁC TỪNG KÝ TỰ CỦA THẦY/CÔ:
+  const GROQ_API_KEY = "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";
+
+  const SYSTEM_INSTRUCTION = `Bạn là Trợ lý AI học thuật thông minh đỉnh cao cho Dự án STEM Toán 12 'Đường ra biển lớn' (Nhân Cơ Đắk Nông -> Cảng Cam Ranh).
+Nhiệm vụ: Trả lời cực kỳ thông minh, sâu sắc, đúng trọng tâm câu hỏi của người dùng (kể cả câu hỏi mở rộng về kỹ thuật, nông sản Tây Nguyên, máy khoan hầm TBM, kinh tế...).
+
+TRI THỨC DỰ ÁN ĐÃ ĐƯỢC CUNG CẤP:
+1. Đắk Nông có 4,2-5,4 tỷ tấn bô-xít. Tổ hợp Nhân Cơ mở rộng 30.000 tỷ lên 2 triệu tấn alumin/năm ra Cảng Cam Ranh. Tam giác vuông AHB (AH = 114 km núi giá 250 tỷ/km, HB = 142 km biển giá 150 tỷ/km).
+2. TỔ 1 (Tuyến thẳng AB): 182,1 km núi. Capex 45.525 tỷ. Ngắn nhất nhưng phá rừng phòng hộ, rủi ro sạt lở đèo dốc và tốn Opex xe leo dốc suốt 30 năm.
+3. TỔ 2 (Tận dụng 142 km CT01): Vốn mở mới ít nhất 28.500 tỷ (tiết kiệm Capex), nhưng xe chạy vòng 256 km gây lãng phí nhiên liệu Opex và phát thải CO2 lớn.
+4. TỔ 3 (Tối ưu Toán học): C(x) = 250*sqrt(114^2 + x^2) + 150*(142 - x). Đạo hàm C'(x) = 0 tìm ra x = 85.5 km. Capex cực tiểu 44.100 tỷ VNĐ. Tiếp tuyến k ≈ 0, nắn sang mốc 82 km (đất cát cằn) chỉ tăng 12 tỷ (0.02%), bảo vệ sinh kế 200 hộ dân và mở trung tâm logistics ICD.
+5. VẬN CHUYỂN NÔNG SẢN TÂY NGUYÊN (Sầu riêng, Bơ, Cà phê): Tổ 3 tối ưu nhất vì trạm ICD tại mốc 82 km làm kho lạnh sơ chế xuất khẩu; đường thoải không làm dập nát hoa quả tươi; thời gian chạy nhanh hơn Tổ 2 tới 2 tiếng.
+6. MÁY KHOAN HẦM TBM: Việt Nam làm chủ tốt (Đa Nhim 4,9km, Metro). Nhưng đá granite rất đắt (800-1200 tỷ/km), né núi hiểm trở là kinh tế nhất.
+
+Khi người dùng hỏi câu hỏi ngoài dự án, hãy phát huy tối đa trí tuệ bách khoa toàn thư của bạn để giải đáp thông minh, khách quan, súc tích (dưới 180 từ).`;
 
   const chatBox = document.getElementById("chatBox");
   const userInput = document.getElementById("userInput");
@@ -117,62 +122,41 @@ BỐI CẢNH DỰ ÁN STEM TOÁN 12: ĐƯỜNG RA BIỂN LỚN (Nhân Cơ Đắk
 
     const loadingMsg = document.createElement("div");
     loadingMsg.className = "msg bot-msg";
-    loadingMsg.innerText = "🌐 AI đang phân tích và tra cứu dữ liệu...";
+    loadingMsg.innerText = "⚡ AI đang suy luận...";
     chatBox.appendChild(loadingMsg);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    const fullSystemPrompt = "Bạn là Trợ lý AI thông minh toàn diện cho dự án STEM Toán 12 'Đường ra biển lớn'. Dưới đây là dữ liệu dự án: " + PROJECT_CONTEXT + ". Khi người dùng hỏi về dự án, hãy dựa vào dữ liệu trên. Khi người dùng hỏi các câu hỏi mở rộng (về nông sản, kinh tế, địa chất, môi trường, máy móc kỹ thuật, tiêu chuẩn xã hội...), bạn hãy tự do suy luận và tra cứu tri thức mở sâu rộng của bạn để trả lời thật thông minh, khoa học và thuyết phục. Trả lời bằng tiếng Việt, dưới 180 từ.";
-
     try {
-      // Sử dụng cổng AI mở với mô hình searchgpt/web-search thông minh
-      const response = await fetch("https://text.pollinations.ai/", {
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${GROQ_API_KEY}`
+        },
         body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
           messages: [
-            { role: "system", content: fullSystemPrompt },
+            { role: "system", content: SYSTEM_INSTRUCTION },
             { role: "user", content: text }
           ],
-          model: "searchgpt", // Kích hoạt chế độ tự động tra cứu dữ liệu trên mạng
-          seed: Math.floor(Math.random() * 10000)
+          temperature: 0.6,
+          max_tokens: 350
         })
       });
 
-      const reply = await response.text();
+      const data = await response.json();
       chatBox.removeChild(loadingMsg);
 
-      if (reply && !reply.includes("Free limit reached")) {
-        appendMsg(reply, "bot-msg");
+      if (data.choices && data.choices[0] && data.choices[0].message) {
+        appendMsg(data.choices[0].message.content, "bot-msg");
+      } else if (data.error) {
+        appendMsg("⚠️ Thông báo: " + data.error.message, "bot-msg");
       } else {
-        // Cổng dự phòng thứ 2 tự động chuyển đổi mô hình nếu mạng nghẽn
-        callBackupAI(text);
+        appendMsg("Hệ thống chưa phản hồi. Vui lòng bấm thử lại!", "bot-msg");
       }
     } catch (err) {
-      callBackupAI(text);
-    }
-  }
-
-  async function callBackupAI(text) {
-    try {
-      const res = await fetch("https://text.pollinations.ai/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [
-            { role: "system", content: "Bạn là AI chuyên gia STEM Logistics. Trả lời thông minh câu hỏi sau dựa trên kiến thức kinh tế, giao thông và nông nghiệp: " },
-            { role: "user", content: text }
-          ],
-          model: "openai"
-        })
-      });
-      const data = await res.text();
-      const load = document.querySelector(".bot-msg:last-child");
-      if (load && load.innerText.includes("đang")) chatBox.removeChild(load);
-      appendMsg(data, "bot-msg");
-    } catch (e) {
-      const load = document.querySelector(".bot-msg:last-child");
-      if (load && load.innerText.includes("đang")) chatBox.removeChild(load);
-      appendMsg("Để vận chuyển nông sản Tây Nguyên (sầu riêng, bơ, cà phê), Phương án Tổ 3 là tối ưu nhất nhờ xây dựng trung tâm ICD kho lạnh tại mốc 82 km, đường dốc thoải chống dập nát và rút ngắn hơn 70 km so với phương án vòng của Tổ 2.", "bot-msg");
+      chatBox.removeChild(loadingMsg);
+      appendMsg("⚠️ Lỗi kết nối mạng: " + err.message, "bot-msg");
     }
   }
 </script>
