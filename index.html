@@ -29,14 +29,13 @@
     .header h1 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
     .header p { font-size: 12px; opacity: 0.95; }
 
-    /* Thanh gợi ý câu hỏi trọng tâm STEM */
     .suggestions { display: flex; gap: 6px; padding: 10px; overflow-x: auto; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; scrollbar-width: none; }
     .suggestions::-webkit-scrollbar { display: none; }
     .chip { font-size: 12px; background: white; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 16px; white-space: nowrap; cursor: pointer; color: var(--primary-dark); font-weight: 500; }
     .chip:hover { background: #e0f2fe; }
 
     .chat-box { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-    .msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+    .msg { max-width: 88%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
     .bot-msg { background: #f1f5f9; color: #1e293b; align-self: flex-start; border-bottom-left-radius: 4px; }
     .user-msg { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 
@@ -55,20 +54,19 @@
     <p>Tối ưu hóa logistics Bô-xít Nhân Cơ - Cam Ranh</p>
   </div>
 
-  <!-- THANH GỢI Ý CÁC VẤN ĐỀ TRỌNG TÂM -->
   <div class="suggestions">
+    <div class="chip" onclick="quickSend('Tổ 1 là tổ dự án như thế nào?')">🌲 Phương án Tổ 1</div>
+    <div class="chip" onclick="quickSend('Phương án của Tổ 2 như thế nào?')">🛣️ Phương án Tổ 2</div>
     <div class="chip" onclick="quickSend('Tổ 3 giải bài toán đạo hàm cực trị thế nào?')">🧮 Giải tích Tổ 3</div>
     <div class="chip" onclick="quickSend('Tại sao nắn tuyến sang 82 km lại nhân văn?')">🌱 Nắn tuyến né 200 hộ dân</div>
     <div class="chip" onclick="quickSend('So sánh Capex và Opex giữa 3 phương án?')">⚖️ Capex vs Opex 30 năm</div>
-    <div class="chip" onclick="quickSend('Phương án nào tối ưu nhất và vì sao?')">🏆 Đánh giá phương án tốt nhất</div>
     <div class="chip" onclick="quickSend('Máy khoan hầm TBM có khoan được khoảng cách 5km xuyên núi không?')">🚇 Máy khoan hầm TBM 5km</div>
-    <div class="chip" onclick="quickSend('Ý nghĩa sư phạm của bài học STEM này là gì?')">🎯 Ý nghĩa sư phạm</div>
   </div>
 
   <div class="chat-box" id="chatBox">
     <div class="msg bot-msg">
       👋 Kính chào Quý Thầy/Cô và các bạn!<br><br>
-      Tôi là Trợ lý AI đồng hành cùng dự án <b>"Đường ra biển lớn"</b>. Mời Quý Thầy/Cô chọn gợi ý phía trên hoặc nhập câu hỏi phản biện trực tiếp vào bên dưới!
+      Tôi là Trợ lý AI dự án <b>"Đường ra biển lớn"</b>. Mời Quý Thầy/Cô đặt câu hỏi phản biện về từng tổ đấu thầu (Tổ 1, Tổ 2, Tổ 3), giải tích đạo hàm hoặc kỹ thuật thi công!
     </div>
   </div>
 
@@ -79,6 +77,15 @@
 </div>
 
 <script>
+  const GEMINI_API_KEY = "AIzaSyAGtdVdR4qAiYWNqxKU-_xYmtx0E4Oknk8";
+
+  const SYSTEM_INSTRUCTION = `Bạn là Trợ lý AI học thuật thông minh cho dự án STEM Toán 12: 'Đường ra biển lớn - Ứng dụng đạo hàm tối ưu hóa hạ tầng logistics' (Bô-xít Nhân Cơ Đắk Nông -> Siêu cảng Cam Ranh).
+Hãy trả lời đúng trọng tâm câu hỏi, ngắn gọn, súc tích (dưới 150 từ), lịch sự:
+1. TỔ 1 (TẦM NHÌN XANH): Xây tuyến thẳng AB nối thẳng Nhân Cơ ra Cam Ranh dài 182,1 km núi. Vốn Capex 45.525 tỷ VNĐ (182,1 km x 250 tỷ/km). Quãng đường ngắn nhất nhưng phá hàng trăm ha rừng phòng hộ, rủi ro hầm núi và tốn Opex nhiên liệu cho xe 50 tấn leo dốc suốt 30 năm.
+2. TỔ 2 (AN TOÀN HẠ TẦNG): Tuyến AH (114 km núi) rồi đi vào cao tốc CT01 có sẵn (142 km biển). Vốn Capex thấp nhất: 28.500 tỷ VNĐ (114 km x 250 tỷ/km). Tận dụng cao tốc công sẵn có, giữ rừng. Nhưng xe chạy vòng tới 256 km (dài hơn 74 km), làm lãng phí hàng ngàn tỷ Opex xăng dầu trong 30 năm và xả lượng lớn khí thải CO2.
+3. TỔ 3 (TỐI ƯU TOÁN HỌC): Lập hàm chi phí C(x) = 250*sqrt(114^2 + x^2) + 150*(142 - x). Đạo hàm C'(x) = 0 tìm ra x = 85.5 km. Vốn Capex tối ưu cực tiểu 44.100 tỷ VNĐ. Tổng chiều dài 199 km. Điểm sáng nhân văn: tiếp tuyến nằm ngang k ≈ 0, khi gặp 200 hộ dân, nắn sang mốc x = 82 km trên GeoGebra chỉ tăng 12 tỷ (0.02%), bảo vệ toàn bộ sinh kế người dân và mở trung tâm ICD.
+4. KỸ THUẬT MÁY KHOAN TBM: Việt Nam hoàn toàn làm chủ máy TBM khoan hầm >5km (dẫn chứng: Thủy điện Đa Nhim 4,9km xuyên núi, Metro Bến Thành, Metro Nhổn). Tuy nhiên khoan qua đá granite rất đắt (800-1200 tỷ/km), nên phương án Tổ 3 né đèo hiểm trở là giải pháp kinh tế nhất.`;
+
   const chatBox = document.getElementById("chatBox");
   const userInput = document.getElementById("userInput");
 
@@ -99,67 +106,67 @@
     sendMessage();
   }
 
-  // BỘ NÃO TRÍ TUỆ NHÂN BẢN TRỰC TIẾP (ĐẢM BẢO PHẢN HỒI CHÍNH XÁC 100%, KHÔNG LỖI MẠNG)
-  function getSmartResponse(q) {
+  // BỘ NÃO TRI THỨC DỰ PHÒNG CHÍNH XÁC THEO TỪNG TỔ (KHÔNG BAO GIỜ BỊ LẶP)
+  function getAccurateFallback(q) {
     const text = q.toLowerCase();
-    
-    // 1. Giải tích Đạo hàm cực trị
-    if (text.includes("đạo hàm") || text.includes("giải tích") || text.includes("tổ 3") && text.includes("toán")) {
-      return "<b>🧮 Lời giải Giải tích Đạo hàm của Tổ 3:</b><br>" +
-             "• Mô hình tam giác vuông AHB với AH = 114 km (núi), HB = 142 km (biển).<br>" +
-             "• Hàm chi phí đầu tư mở mới: <code>C(x) = 250√(114² + x²) + 150(142 - x)</code> (với x là vị trí trạm M).<br>" +
-             "• Đạo hàm bậc nhất: <code>C'(x) = (250x)/√(114² + x²) - 150</code>.<br>" +
-             "• Cho C'(x) = 0 ⇔ 25x² = 9(12996 + x²) ⇔ 16x² = 116964 ⇔ <b>x = 85.5 km</b>.<br>" +
-             "• Vốn đầu tư cực tiểu: <b>C(85.5) = 44.100 tỷ VNĐ</b>. Bảng biến thiên khẳng định đây là giá trị nhỏ nhất trên đoạn [0; 142].";
+
+    // Hỏi về Tổ 1
+    if (text.includes("tổ 1") || text.includes("nhóm 1") || text.includes("tầm nhìn xanh") || text.includes("tuyến thẳng")) {
+      return "<b>🌲 Phương án TỔ 1 (Tầm Nhìn Xanh - Tuyến thẳng AB):</b><br>" +
+             "• <b>Giải pháp:</b> Mở mới tuyến đường thẳng xuyên núi dài <b>182,1 km</b>.<br>" +
+             "• <b>Vốn mở mới (Capex):</b> <b>45.525 tỷ VNĐ</b> (182,1 km × 250 tỷ/km).<br>" +
+             "• <b>Ưu điểm:</b> Quãng đường di chuyển ngắn nhất, rút ngắn tối đa thời gian giao hàng.<br>" +
+             "• <b>Nhược điểm lớn:</b> Phải phá hủy hàng trăm hecta rừng phòng hộ, nguy cơ sạt lở đèo dốc và bắt đoàn xe bồn 50 tấn leo dốc tiêu tốn chi phí vận hành (Opex) cực lớn trong 30 năm.";
     }
 
-    // 2. Nắn tuyến né dân sinh
+    // Hỏi về Tổ 2
+    if (text.includes("tổ 2") || text.includes("nhóm 2") || text.includes("an toàn") || text.includes("ct01") || text.includes("cao tốc")) {
+      return "<b>🛣️ Phương án TỔ 2 (An Toàn Hạ Tầng - Tuyến AH + CT01):</b><br>" +
+             "• <b>Giải pháp:</b> Chỉ mở đoạn AH (114 km núi) rồi nhập vào cao tốc Bắc - Nam CT01 sẵn có (142 km biển).<br>" +
+             "• <b>Vốn mở mới (Capex):</b> <b>28.500 tỷ VNĐ</b> (114 km × 250 tỷ) 👉 <i>Vốn đầu tư thấp nhất</i>.<br>" +
+             "• <b>Ưu điểm:</b> Tiết kiệm vốn ngân sách ban đầu, tận dụng hạ tầng công, giữ được rừng.<br>" +
+             "• <b>Nhược điểm lớn:</b> Quãng đường xe chạy vòng lên tới <b>256 km</b> (dài hơn tuyến thẳng 74 km). Chi phí xăng dầu Opex suốt 30 năm sẽ bị đội lên hàng ngàn tỷ đồng và xả lượng lớn khí thải CO2.";
+    }
+
+    // Hỏi về Tổ 3
+    if (text.includes("tổ 3") || text.includes("nhóm 3") || text.includes("toán học") || text.includes("đạo hàm") || text.includes("cực trị")) {
+      return "<b>🧮 Phương án TỔ 3 (Tối Ưu Toán Học - Tuyến Cực Trị):</b><br>" +
+             "• <b>Mô hình Toán:</b> Hàm chi phí <code>C(x) = 250√(114² + x²) + 150(142 - x)</code>.<br>" +
+             "• <b>Đạo hàm cực trị:</b> Giải <code>C'(x) = 0</code> tìm ra điểm cực tiểu tại <b>x = 85.5 km</b>.<br>" +
+             "• <b>Vốn mở mới (Capex):</b> <b>44.100 tỷ VNĐ</b> (Tổng chiều dài tuyến 199 km).<br>" +
+             "• <b>Đánh giá:</b> Đạt cực tiểu toán học về chi phí mở mới, dung hòa giữa địa hình núi và đồng bằng ven biển.";
+    }
+
+    // Hỏi về Nắn tuyến né dân sinh 82km
     if (text.includes("nắn tuyến") || text.includes("nhân văn") || text.includes("82") || text.includes("dân")) {
       return "<b>🌱 Tính Nhân văn của Toán học (Nắn tuyến GeoGebra):</b><br>" +
-             "• Tại điểm cực tiểu x = 85.5 km, đồ thị hàm C(x) có tiếp tuyến nằm ngang (k ≈ 0), đáy đồ thị rất phẳng.<br>" +
-             "• Khi khảo sát thấy mốc 85.5 km vướng 200 hộ dân và đầm tôm, nhóm dùng thanh trượt GeoGebra nắn trạm sang <b>mốc x = 82 km</b> (vùng đất cát cằn cỗi).<br>" +
-             "• Chi phí mở mới chỉ tăng thêm chưa tới <b>12 tỷ đồng (tăng 0.02%)</b>, nhưng bảo vệ trọn vẹn sinh kế và nhà cửa của hơn 200 hộ dân!";
+             "• Tại điểm cực tiểu x = 85.5 km, đồ thị có tiếp tuyến nằm ngang (k ≈ 0), đáy đồ thị rất phẳng.<br>" +
+             "• Nhóm đã dùng GeoGebra nắn trạm sang <b>mốc 82 km</b> (vùng đất cát cằn cỗi) để né 200 hộ dân và đầm tôm.<br>" +
+             "• Chi phí mở mới chỉ tăng thêm chưa tới <b>12 tỷ đồng (0.02%)</b>, nhưng bảo vệ trọn vẹn sinh kế và đời sống của người dân địa phương!";
     }
 
-    // 3. So sánh Capex vs Opex
-    if (text.includes("capex") || text.includes("opex") || text.includes("so sánh") || text.includes("chi phí")) {
-      return "<b>⚖️ Ma trận so sánh Capex (Đầu tư ban đầu) vs Opex (Vận hành 30 năm):</b><br>" +
-             "• <b>Tổ 1 (Tuyến thẳng):</b> Capex = 45.525 tỷ. Quãng đường ngắn nhất (182,1 km) nhưng xe 50 tấn chở quặng leo đèo tốn Opex nhiên liệu gấp 1,5 lần suốt 30 năm.<br>" +
-             "• <b>Tổ 2 (CT01):</b> Capex THẤP NHẤT = 28.500 tỷ. Nhưng xe chạy vòng tới 256 km (dài hơn 74 km), làm lãng phí hàng ngàn tỷ Opex xăng dầu và phát thải lớn CO2.<br>" +
-             "• <b>Tổ 3 (Tối ưu Toán học):</b> Capex = 44.100 tỷ, tổng đường 199 km. Cân bằng tối ưu giữa vốn đầu tư và chi phí vận hành lâu dài.";
+    // Hỏi về So sánh Capex vs Opex
+    if (text.includes("capex") || text.includes("opex") || text.includes("so sánh")) {
+      return "<b>⚖️ So sánh Capex (Vốn đầu tư ban đầu) vs Opex (Chi phí vận hành 30 năm):</b><br>" +
+             "• <b>Tổ 2:</b> Thắng về Capex (chỉ 28.500 tỷ) nhưng Thua về Opex (chạy vòng 256 km tốn xăng dầu 30 năm).<br>" +
+             "• <b>Tổ 1:</b> Quãng đường ngắn (182,1 km) nhưng Capex cao (45.525 tỷ) và xe leo đèo tốn Opex gấp 1.5 lần.<br>" +
+             "• <b>Tổ 3:</b> Cân bằng tối ưu toàn diện nhất (Capex 44.100 tỷ, đường 199 km, mở trung tâm ICD).";
     }
 
-    // 4. Máy khoan hầm TBM
+    // Hỏi về Máy khoan hầm TBM
     if (text.includes("khoan") || text.includes("tbm") || text.includes("5km") || text.includes("hầm")) {
-      return "<b>🚇 Khả năng thi công của Máy khoan hầm TBM:</b><br>" +
-             "• <b>Hoàn toàn làm được:</b> Việt Nam đã làm chủ máy khoan TBM hiện đại. Dự án Thủy điện Đa Nhim mở rộng đã khoan hầm xuyên núi dài <b>4,9 km</b>; tuyến Metro Bến Thành và Metro Nhổn cũng đã khoan ngầm thành công.<br>" +
-             "• <b>Đánh giá tính kinh tế:</b> Khoan hầm qua đá granite Tây Nguyên chi phí rất đắt (800 - 1.200 tỷ/km). Vì vậy, phương án Tổ 3 né các khối núi hiểm trở là giải pháp kinh tế và an toàn kỹ thuật cao nhất.";
+      return "<b>🚇 Khả năng của Máy khoan hầm TBM:</b><br>" +
+             "• <b>Hoàn toàn làm được:</b> Việt Nam đã dùng máy TBM khoan hầm Thủy điện Đa Nhim dài <b>4,9 km</b> xuyên núi và Metro đô thị.<br>" +
+             "• <b>Chi phí:</b> Khoan đá granite Tây Nguyên giá rất đắt (800 - 1.200 tỷ/km). Vì vậy phương án Tổ 3 né đèo hiểm trở là giải pháp kinh tế và an toàn nhất.";
     }
 
-    // 5. Phương án nào tốt nhất
-    if (text.includes("tốt nhất") || text.includes("tối ưu nhất") || text.includes("chọn ai")) {
-      return "<b>🏆 Phương án tối ưu toàn diện nhất là TỔ 3:</b><br>" +
-             "1. Đạt cực tiểu toán học về chi phí đầu tư mở mới (44.100 tỷ).<br>" +
-             "2. Cân bằng hài hòa giữa Capex và Opex 30 năm (không bắt xe chạy vòng 256 km như Tổ 2).<br>" +
-             "3. Tránh phá hoại rừng phòng hộ đầu nguồn (không xẻ dọc núi như Tổ 1).<br>" +
-             "4. Có tính nhân văn cao khi nắn tuyến sang mốc 82 km bảo vệ 200 hộ dân ven biển.";
-    }
-
-    // 6. Ý nghĩa sư phạm STEM
-    if (text.includes("sư phạm") || text.includes("ý nghĩa") || text.includes("phẩm chất") || text.includes("năng lực")) {
-      return "<b>🎯 Ý nghĩa Sư phạm của Chủ đề STEM Toán 12:</b><br>" +
-             "• <b>Năng lực Toán học:</b> Chuyển hóa đạo hàm, cực trị từ lý thuyết sách giáo khoa thành công cụ giải quyết bài toán quy hoạch thực tế.<br>" +
-             "• <b>Tích hợp liên môn:</b> Kết hợp Công nghệ (GeoGebra), Kỹ thuật (giao thông), Kinh tế (Capex/Opex) và Môi trường (Net Zero).<br>" +
-             "• <b>Thông điệp cốt lõi:</b> 'Toán học tìm ra con số rẻ nhất, nhưng con người và trí tuệ nhân văn sẽ chọn ra phương án phát triển bền vững nhất'.";
-    }
-
-    // 7. Chào hỏi hoặc câu hỏi khác
+    // Chào hỏi
     if (text.includes("chào") || text.includes("hello") || text.includes("hi")) {
-      return "Dạ em kính chào Quý Thầy/Cô và các bạn! Em là Trợ lý AI của dự án STEM Toán 12 'Đường ra biển lớn'. Thầy/Cô có thể bấm vào các gợi ý phía trên hoặc hỏi em bất kỳ nội dung nào về mô hình tối ưu logistics Nhân Cơ - Cam Ranh ạ!";
+      return "Dạ em kính chào Quý Thầy/Cô và các bạn! Em là Trợ lý AI của dự án STEM Toán 12 'Đường ra biển lớn'. Thầy/Cô có câu hỏi nào cần kiểm tra về Tổ 1, Tổ 2, Tổ 3 hay bài toán đạo hàm không ạ?";
     }
 
-    // Câu trả lời linh hoạt tổng quan
-    return "Dự án giải quyết bài toán vận chuyển 2 triệu tấn quặng Alumin từ Nhà máy Nhân Cơ (Đắk Nông) ra Siêu cảng Cam Ranh bằng cách lập hàm chi phí <code>C(x) = 250√(114² + x²) + 150(142 - x)</code>. Sử dụng đạo hàm tìm ra điểm cực trị tại <b>x = 85.5 km</b> (Capex = 44.100 tỷ VNĐ) và linh hoạt nắn tuyến về <b>82 km</b> trên GeoGebra để bảo vệ đời sống dân sinh.";
+    // Mặc định thông minh
+    return "Dự án STEM 'Đường ra biển lớn' ứng dụng đạo hàm để giải quyết bài toán logistics vận chuyển 2 triệu tấn quặng Alumin từ Nhân Cơ ra Cảng Cam Ranh. Hội đồng gồm 3 phương án: Tổ 1 (Tuyến thẳng AB), Tổ 2 (Tận dụng CT01) và Tổ 3 (Cực trị toán học x = 85.5 km kết hợp nắn tuyến né dân tại mốc 82 km).";
   }
 
   async function sendMessage() {
@@ -171,16 +178,38 @@
 
     const loadingMsg = document.createElement("div");
     loadingMsg.className = "msg bot-msg";
-    loadingMsg.innerText = "⚡ Đang xử lý câu trả lời...";
+    loadingMsg.innerText = "⏳ Đang phân tích dữ liệu...";
     chatBox.appendChild(loadingMsg);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // Giả lập thời gian suy nghĩ 0.4s tạo cảm giác AI phản hồi tự nhiên và siêu tốc
-    setTimeout(() => {
+    // Gọi AI trực tiếp, nếu mạng bị trễ thì kích hoạt bộ não dự phòng chính xác
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500); // Đợi tối đa 3.5s
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: SYSTEM_INSTRUCTION + "\n\nCÂU HỎI: " + text }] }]
+        })
+      });
+
+      clearTimeout(timeoutId);
+      const data = await response.json();
       chatBox.removeChild(loadingMsg);
-      const answer = getSmartResponse(text);
-      appendMsg(answer, "bot-msg");
-    }, 400);
+
+      if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
+        appendMsg(data.candidates[0].content.parts[0].text, "bot-msg");
+      } else {
+        appendMsg(getAccurateFallback(text), "bot-msg");
+      }
+    } catch (err) {
+      chatBox.removeChild(loadingMsg);
+      // Khi mạng bận hoặc timeout, trả về câu trả lời chính xác tương ứng ngay lập tức
+      appendMsg(getAccurateFallback(text), "bot-msg");
+    }
   }
 </script>
 
