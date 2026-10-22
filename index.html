@@ -115,7 +115,7 @@ Hàm tổng chi phí mở mới: C(x) = 250*sqrt(114^2 + x^2) + 150*(142 - x).
     chatBox.appendChild(loadingMsg);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
     try {
       const response = await fetch(API_URL, {
