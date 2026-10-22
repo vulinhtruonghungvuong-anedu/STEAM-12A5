@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STEM Toán 12 - Đường Ra Biển Lớn</title>
+  <!-- Nhúng trực tiếp thư viện Trí tuệ Nhân tạo OpenAI không cần API Key -->
+  <script src="https://js.puter.com/v2/"></script>
   <style>
     :root {
       --primary: #0284c7;
@@ -66,7 +68,7 @@
   <div class="chat-box" id="chatBox">
     <div class="msg bot-msg">
       👋 Kính chào Quý Thầy/Cô và các bạn!<br><br>
-      Tôi là Trợ lý AI thế hệ mới của dự án <b>"Đường ra biển lớn"</b>. Tôi có thể giải đáp các phương án đấu thầu, giải tích đạo hàm, kỹ thuật thi công và mở rộng sang bài toán nông sản Tây Nguyên!
+      Tôi là Trợ lý AI thế hệ mới (OpenAI) của dự án <b>"Đường ra biển lớn"</b>. Tôi có thể suy luận trực tiếp về dự án, kỹ thuật hầm mỏ, chuỗi cung ứng nông sản Tây Nguyên và giải đáp mọi câu hỏi phản biện của Thầy/Cô!
     </div>
   </div>
 
@@ -77,20 +79,22 @@
 </div>
 
 <script>
-  const GROQ_API_KEY = "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";
+  // KHO TRI THỨC DỰ ÁN NẠP VÀO NÃO BỘ AI OPENAI
+  const SYSTEM_INSTRUCTION = `Bạn là Trợ lý AI học thuật thông minh đỉnh cao cho Dự án STEM Toán 12 'Đường ra biển lớn' (Nhân Cơ Đắk Nông -> Cảng Cam Ranh).
+Nhiệm vụ: Trả lời cực kỳ thông minh, sâu sắc, suy luận linh hoạt đúng trọng tâm từng câu hỏi của người dùng (kể cả câu hỏi mở rộng về kỹ thuật, nông sản Tây Nguyên, máy khoan hầm TBM, kinh tế...).
 
-  const SYSTEM_INSTRUCTION = `Bạn là Trợ lý AI học thuật thông minh đỉnh cao cho Dự án STEM Toán 12 'Đường ra biển lớn' (Nhân Cơ Đắk Nông ra Cảng Cam Ranh).
-Nhiệm vụ: Trả lời thông minh, đúng trọng tâm câu hỏi của người dùng, phân tích sâu sắc, ngắn gọn (dưới 170 từ).
-TRI THỨC CỐT LÕI:
-1. NÔNG SẢN TÂY NGUYÊN (Sầu riêng, bơ, cà phê): Phương án TỔ 3 tối ưu nhất vì trạm ICD tại mốc 82 km làm trung tâm kho lạnh bảo quản nông sản trước khi ra cảng; đường dốc thoải không làm dập nát hoa quả (Tổ 1 đèo dốc quanh co làm hỏng quả); rút ngắn thời gian hơn Tổ 2 tới 2 giờ giúp giữ độ tươi.
-2. TỔ 1: Tuyến thẳng AB dài 182,1 km núi, Capex 45.525 tỷ. Rút ngắn quãng đường nhưng tàn phá rừng phòng hộ, rủi ro hầm núi và tốn Opex xe leo dốc 30 năm.
-3. TỔ 2: Tuyến AH kết nối cao tốc CT01 (114 km núi + 142 km biển). Capex thấp nhất 28.500 tỷ. Tận dụng đường công sẵn có, nhưng xe chạy vòng 256 km lãng phí hàng ngàn tỷ Opex xăng dầu và phát thải lớn CO2.
-4. TỔ 3: C(x) = 250*sqrt(114^2 + x^2) + 150*(142 - x). Đạo hàm C'(x) = 0 ra x = 85.5 km. Capex 44.100 tỷ. Tiếp tuyến k ≈ 0, nắn sang mốc 82 km (đất cát cằn) chỉ tăng 12 tỷ (0.02%), bảo vệ sinh kế 200 hộ dân và mở trung tâm logistics ICD.
-5. MÁY KHOAN TBM: Hoàn toàn làm được >5km (Đa Nhim 4.9km, Metro). Nhưng đá granite rất đắt (800-1200 tỷ/km), né núi hiểm trở là kinh tế nhất.`;
+DỮ LIỆU CỐT LÕI CỦA DỰ ÁN:
+1. Bối cảnh: Đắk Nông có 4,2-5,4 tỷ tấn bô-xít. Tổ hợp Nhân Cơ mở rộng 30.000 tỷ lên 2 triệu tấn alumin/năm ra Siêu cảng Cam Ranh bằng xe bồn silo. Tam giác vuông AHB (AH = 114 km núi giá 250 tỷ/km, HB = 142 km biển giá 150 tỷ/km).
+2. TỔ 1 (Tuyến thẳng AB): Dài 182,1 km núi, Capex 45.525 tỷ VNĐ. Ngắn nhất nhưng phá hủy hàng trăm ha rừng phòng hộ, rủi ro sạt lở đèo dốc và bắt xe bồn 50 tấn leo dốc tốn Opex nhiên liệu gấp 1.5 lần suốt 30 năm.
+3. TỔ 2 (Tận dụng 142 km CT01): Vốn mở mới ít nhất 28.500 tỷ VNĐ (tiết kiệm Capex), tận dụng cao tốc công sẵn có. Nhưng nhược điểm lớn là xe chạy vòng tới 256 km gây lãng phí hàng ngàn tỷ Opex xăng dầu trong 30 năm và xả lượng lớn khí thải CO2.
+4. TỔ 3 (Tối ưu Toán học): C(x) = 250*sqrt(114^2 + x^2) + 150*(142 - x). Đạo hàm C'(x) = 0 tìm ra x = 85.5 km. Capex cực tiểu 44.100 tỷ VNĐ. Tiếp tuyến k ≈ 0, nắn sang mốc 82 km (đất cát cằn cỗi) chỉ tăng 12 tỷ (0.02%), bảo vệ toàn bộ sinh kế 200 hộ dân và hình thành trung tâm logistics ICD.
+5. VẬN CHUYỂN NÔNG SẢN TÂY NGUYÊN (Sầu riêng, Bơ, Cà phê): Tổ 3 tối ưu nhất vì trạm ICD tại mốc 82 km làm trung tâm kho lạnh sơ chế xuất khẩu; đường thoải không làm dập nát hoa quả tươi; thời gian chạy nhanh hơn Tổ 2 tới 2 tiếng giúp giữ độ tươi ngon.
+6. MÁY KHOAN HẦM TBM: Việt Nam hoàn toàn làm chủ (Thủy điện Đa Nhim 4,9km, Metro). Nhưng khoan qua đá granite rất đắt (800-1200 tỷ/km), né núi hiểm trở là kinh tế nhất.
+
+Khi người dùng hỏi câu hỏi ngoài dự án, hãy phát huy tối đa trí tuệ bách khoa toàn thư của bạn để trả lời thông minh, khoa học, khách quan, súc tích (dưới 170 từ).`;
 
   const chatBox = document.getElementById("chatBox");
   const userInput = document.getElementById("userInput");
-  let activeModel = null;
 
   function appendMsg(text, type) {
     const msg = document.createElement("div");
@@ -109,26 +113,6 @@ TRI THỨC CỐT LÕI:
     sendMessage();
   }
 
-  // HÀM TỰ ĐỘNG DÒ TÌM MODEL ĐANG HOẠT ĐỘNG TRÊN TÀI KHOẢN (KHÔNG BAO GIỜ BỊ LỖI DECOMMISSION)
-  async function getWorkingModel() {
-    if (activeModel) return activeModel;
-    try {
-      const res = await fetch("https://api.groq.com/openai/v1/models", {
-        headers: { "Authorization": `Bearer ${GROQ_API_KEY}` }
-      });
-      const data = await res.json();
-      if (data && data.data && data.data.length > 0) {
-        // Tìm model chat thông minh đang khả dụng
-        const preferred = data.data.find(m => m.id.includes("llama-3") || m.id.includes("mixtral") || m.id.includes("gemma"));
-        activeModel = preferred ? preferred.id : data.data[0].id;
-        return activeModel;
-      }
-    } catch (e) {
-      console.warn("Dò model tự động...", e);
-    }
-    return "mixtral-8x7b-32768";
-  }
-
   async function sendMessage() {
     const text = userInput.value.trim();
     if (!text) return;
@@ -138,55 +122,32 @@ TRI THỨC CỐT LÕI:
 
     const loadingMsg = document.createElement("div");
     loadingMsg.className = "msg bot-msg";
-    loadingMsg.innerText = "⚡ AI đang tư duy và phân tích...";
+    loadingMsg.innerText = "⚡ AI đang suy luận và phân tích...";
     chatBox.appendChild(loadingMsg);
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-      const modelToUse = await getWorkingModel();
-
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: modelToUse,
-          messages: [
-            { role: "system", content: SYSTEM_INSTRUCTION },
-            { role: "user", content: text }
-          ],
-          temperature: 0.5,
-          max_tokens: 350
-        })
-      });
-
-      const data = await response.json();
+      // GỌI TRỰC TIẾP TRÍ TUỆ NHÂN TẠO OPENAI (GPT-4o-mini) QUA PUTER AI
+      const prompt = SYSTEM_INSTRUCTION + "\n\nCÂU HỎI HIỆN TẠI: " + text;
+      
+      const response = await puter.ai.chat(prompt, { model: "gpt-4o-mini" });
       chatBox.removeChild(loadingMsg);
 
-      if (data.choices && data.choices[0] && data.choices[0].message) {
-        appendMsg(data.choices[0].message.content, "bot-msg");
+      let replyContent = "";
+      if (typeof response === "string") {
+        replyContent = response;
+      } else if (response && response.message && response.message.content) {
+        replyContent = response.message.content;
+      } else if (response && response.text) {
+        replyContent = response.text;
       } else {
-        // Dự phòng thông minh nếu máy chủ có trục trặc nhỏ
-        fallbackIntelligent(text);
+        replyContent = JSON.stringify(response);
       }
+
+      appendMsg(replyContent, "bot-msg");
     } catch (err) {
       chatBox.removeChild(loadingMsg);
-      fallbackIntelligent(text);
-    }
-  }
-
-  function fallbackIntelligent(q) {
-    const t = q.toLowerCase();
-    if (t.includes("nông sản") || t.includes("sầu riêng") || t.includes("trái cây")) {
-      appendMsg("<b>🥑 Vận chuyển Nông sản: Phương án TỔ 3 tối ưu nhất!</b><br>• Trạm logistics tại mốc 82 km là vị trí hoàn hảo để làm trung tâm ICD kho lạnh bảo quản sầu riêng, bơ, cà phê Đắk Nông trước khi xuất cảng.<br>• Đường có độ dốc vừa phải, tránh làm dập nát trái cây tươi so với đường đèo hiểm trở của Tổ 1.<br>• Tiết kiệm hơn 70 km so với tuyến vòng Tổ 2, rút ngắn 2 giờ vận chuyển giúp giữ trọn độ tươi ngon.", "bot-msg");
-    } else if (t.includes("tổ 1")) {
-      appendMsg("<b>🌲 Phương án TỔ 1 (Tầm Nhìn Xanh - Tuyến thẳng AB):</b> Xây đường thẳng 182,1 km xuyên núi, Capex 45.525 tỷ VNĐ. Quãng đường ngắn nhất nhưng xẻ dọc rừng phòng hộ Tây Nguyên và bắt xe bồn 50 tấn leo đèo tốn chi phí vận hành Opex rất lớn suốt 30 năm.", "bot-msg");
-    } else if (t.includes("tổ 2")) {
-      appendMsg("<b>🛣️ Phương án TỔ 2 (An Toàn Hạ Tầng - Tuyến AH + CT01):</b> Vốn Capex thấp nhất (28.500 tỷ VNĐ) do tận dụng 142 km cao tốc CT01 sẵn có. Tuy nhiên nhược điểm là xe phải chạy vòng tới 256 km gây lãng phí hàng ngàn tỷ Opex xăng dầu và phát thải lớn khí Carbon.", "bot-msg");
-    } else {
-      appendMsg("<b>🧮 Phương án TỔ 3 (Tối Ưu Toán Học):</b> Đạt cực tiểu Capex tại x = 85.5 km (44.100 tỷ VNĐ). Khi gặp 200 hộ dân, nắn sang mốc 82 km trên GeoGebra chỉ tăng 0.02% (chưa tới 12 tỷ), bảo vệ trọn vẹn sinh kế nhân dân và mở trung tâm logistics ICD đa dụng.", "bot-msg");
+      appendMsg("⚠️ Lỗi kết nối AI: " + err.message + ". Vui lòng thử bấm gửi lại!", "bot-msg");
     }
   }
 </script>
